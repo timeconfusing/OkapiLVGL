@@ -43,7 +43,6 @@ myself, I spent time with him getting the spacing optimal for V5. This is why th
 prints the usable screen dimensions. 
 ![](https://raw.githubusercontent.com/timeconfusing/Images/master/INFO_NO_AUTO.PNG)
 
-
 The robot.h file describes all the attributes of the robot. This includes ports usage, chassis
 characteristics used for Okapi, and the extern variables for use in opcontrol and auton files.
 
