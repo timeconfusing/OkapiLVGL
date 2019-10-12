@@ -22,6 +22,28 @@ that starting position. There is a status bar at the bottom of the screen to ind
 auton was selected. The name of the auton is set in the robot_gui.h file. When the matrix 
 button is pressed the status bar at the bottom displays the auton name.
 
+Images are taken from the original version created on the PC and ran on the LVGL PC Simulator.
+
+MARL stands for Match Auton Red Left (I don’t remember why the M is there since these selects
+are also used for skills.) The status bar, SB, shows no auton has been selected.
+![](https://raw.githubusercontent.com/timeconfusing/Images/master/MARL_NO_AUTON.PNG)
+
+After selecting an auton the SB shows the Auton# and a short text description. (See robot.h 
+for auton text description.)
+![](https://raw.githubusercontent.com/timeconfusing/Images/master/MARL.PNG)
+
+There is also an INFO tab for displaying text on a selected line. The auton function on the 
+PC Sim prints out its name. This was to test the point to function which was a new concept 
+for the coder. 
+![](https://raw.githubusercontent.com/timeconfusing/Images/master/INFO.PNG)
+
+Notice that these images do not have a VEX header bar. This cause some issues with sizing the
+objects on the V5 Brain. Since styles were (and still are) a foriegn concept to the coder and 
+myself, I spent time with him getting the spacing optimal for V5. This is why the info tab 
+prints the usable screen dimensions. 
+![](https://raw.githubusercontent.com/timeconfusing/Images/master/INFO_NO_AUTO.PNG)
+
+
 The robot.h file describes all the attributes of the robot. This includes ports usage, chassis
 characteristics used for Okapi, and the extern variables for use in opcontrol and auton files.
 
