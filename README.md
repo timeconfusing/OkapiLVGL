@@ -19,7 +19,8 @@ desired.
 There are 6 tabs: Auton Red Left, Red Right, Blue Left, Blue Right, Info, and Telm. The tabs 
 are selected by touching them. Each of the auton tabs has 6 buttons to select an auton for 
 that starting position. There is a status bar at the bottom of the screen to indicate which 
-auton was selected. The name of the auton is set in the robot_gui.h file. 
+auton was selected. The name of the auton is set in the robot_gui.h file. When the matrix 
+button is pressed the status bar at the bottom displays the auton name.
 
 Disclaimer, since I am not programmer, I don’t know that Okapi is used correctly for a 
 multi-file project but it seems to work in both opcontrol and auton functions. Also, this
