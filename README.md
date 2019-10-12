@@ -22,6 +22,9 @@ that starting position. There is a status bar at the bottom of the screen to ind
 auton was selected. The name of the auton is set in the robot_gui.h file. When the matrix 
 button is pressed the status bar at the bottom displays the auton name.
 
+The robot.h file describes all the attributes of the robot. This includes ports usage, chassis
+characteristics used for Okapi, and the extern variables for use in opcontrol and auton files.
+
 Disclaimer, since I am not programmer, I don’t know that Okapi is used correctly for a 
 multi-file project but it seems to work in both opcontrol and auton functions. Also, this
 code should be considered unsupported and use at your own risk.  
