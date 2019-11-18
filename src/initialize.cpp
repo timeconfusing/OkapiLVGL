@@ -11,9 +11,9 @@
 //! @license MIT
 //
 ////////////////////////////////////////////////////////////////////////
-#include "main.h"
+#include "robot.h"
+#include "robot_gui.h"
 
-int go;
 int drive_control;
 
 // live_telemetry; a function intended to run as a task to display live value of sensor pedantically
@@ -24,6 +24,7 @@ void live_telemetry(void* param) {
     telm_printf(2,"  LDVel=%f, RDVel=%f",left_drive_motors.getActualVelocity(),right_drive_motors.getActualVelocity());
     telm_printf(3,"  LDCur=%d, RDCur=%d",left_drive_motors.getCurrentDraw(),right_drive_motors.getCurrentDraw());
     telm_printf(4,"  BMode=%s",right_drive_motors.getBrakeMode() == okapi::AbstractMotor::brakeMode::hold ? "Hold" : "Coast");
+    telm_printf(5,"  Left Vel=%3.0f, Right Vel=%3.0f",left_drive_motors.getActualVelocity(),right_drive_motors.getActualVelocity());
 
     pros::Task::delay(50);
   }
@@ -36,10 +37,10 @@ void live_telemetry(void* param) {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-  pros::delay(50); // sometimes LVGL won't draw the screen if there is no delay and it is not inverted on the brain
+  pros::delay(50); // sometimes LVGL won't draw the screen if there is no delay or it is not inverted on the brain
   robot_gui();
 	auton_ptr = &auton_non;
-  go = 0;
+  auton_go = 0;
 
   drive_control = TANK;
 

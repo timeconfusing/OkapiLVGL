@@ -18,10 +18,13 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
-#include "main.h"
+#include "robot.h"
+#include "robot_gui.h"
 
 void marl1() {
  info_printf(2,"in marl1");
+ // example usage
+ // match_auton2(RED); // mirror of BLUE right
 }
 
 void marl2() {
@@ -29,34 +32,81 @@ void marl2() {
 }
 
 void marl3() {
- info_printf(1,"in marl3");
+  double gearing = (double)left_drive_motors.getGearing();
+  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  info_printf(1,"in marl4: Gearing=%3.2d",gearing);
+  chassis->setMaxVelocity(gearing*1.0); // see if speed affects turning
+  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(3," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(4," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(180.0_deg);
+  info_printf(5,"180: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(-360.0_deg);
+  info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+
+  chassis->setMaxVelocity(gearing);
 }
 
 void marl4() {
- info_printf(1,"in marl4");
+  double gearing = (double)left_drive_motors.getGearing();
+  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  info_printf(1,"in marl4: Gearing=%3.2d",gearing);
+  chassis->setMaxVelocity(gearing*0.75); // see if speed affects turning
+  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(3," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(4," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(180.0_deg);
+  info_printf(5,"180: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(-360.0_deg);
+  info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+
+  chassis->setMaxVelocity(gearing);
 }
 
 void marl5() {
- info_printf(1,"in marl5");
+  double gearing = (double)left_drive_motors.getGearing();
+  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  info_printf(1,"in marl5: Gearing=%3.2d",gearing);
+  chassis->setMaxVelocity(gearing*0.5); // see if speed affects turning
+  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(3," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(90.0_deg);
+  info_printf(4," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(180.0_deg);
+  info_printf(5,"180: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+  chassis->turnAngle(-360.0_deg);
+  info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+
+  chassis->setMaxVelocity(gearing);
 }
 
 void marl6() {
- info_printf(1,"in marl6");
+ double gearing = (double)left_drive_motors.getGearing();
+ chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+ info_printf(1,"in marl6: Gearing=%3.2d",gearing);
+ chassis->setMaxVelocity(gearing*0.25); // see if speed affects turning
  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
- chassis->turnAngle(90_deg);
+ chassis->turnAngle(90.0_deg);
  info_printf(3," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
- chassis->turnAngle(90_deg);
+ chassis->turnAngle(90.0_deg);
  info_printf(4," 90: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
- chassis->turnAngle(180_deg);
+ chassis->turnAngle(180.0_deg);
  info_printf(5,"180: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
- chassis->turnAngle(-360_deg);
+ chassis->turnAngle(-360.0_deg);
  info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
+
+ chassis->setMaxVelocity(gearing);
 }
 
 void marr1() {
  info_printf(1,"in marr1");
  // example usage
- // match_auton1(RED); // mirror of BLUE left
+ // match_auton1(RED); // mirror of BLUE leftY
 }
 
 void marr2() {

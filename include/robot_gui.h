@@ -57,6 +57,11 @@
  *      TYPEDEFS
  **********************/
 
+ /**********************
+  * GLOBAL Variables
+  **********************/
+  extern int auton_go; // global variable to start a selected auton during opcontrol
+
 /**********************
  * GLOBAL PROTOTYPES
  **********************/

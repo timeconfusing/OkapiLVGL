@@ -2,7 +2,7 @@
 //! @file: robot.h
 //! @brief defines and prototypes for the robot
 //
-//  TODO: 
+//  TODO:
 //
 //! @author RPM
 //
@@ -11,11 +11,10 @@
 //! @license MIT
 //
 ////////////////////////////////////////////////////////////////////////
-
-
 #pragma once
 
 #include <memory> // required for smart pointers
+#include "main.h" // robot.h needs main for forwad declarations 
 
 #define LEFT_DRIVE_MOTOR1_PORT 11
 #define LEFT_DRIVE_MOTOR2_PORT 20
@@ -24,6 +23,8 @@
 #define RIGHT_DRIVE_MOTOR2_PORT 10
 
 #define DRIVE_GEARSET green
+#define DRIVE_GEARMOTOR 36.0
+#define DRIVE_GEARWHEEL 36.0
 
 #define CHASSIS_TRACK 10.5_in
 #define CHASSIS_WHEELS 4.0_in
@@ -41,15 +42,14 @@
 
 extern int drive_control;
 
-// these gives a warning b/c main.h is not including in this header file
-// this header file is included in main.h so there is no issue
 extern std::shared_ptr<okapi::Controller> joy1;
 extern std::shared_ptr<okapi::ChassisControllerIntegrated> chassis;
 extern okapi::MotorGroup left_drive_motors;
 extern okapi::MotorGroup right_drive_motors;
+extern okapi::AsyncMotionProfileController profileControllerF;
+extern okapi::AsyncMotionProfileController profileControllerM;
+extern okapi::AsyncMotionProfileController profileControllerS;
 
 // extern std::shared_ptr<AsyncControllerFactory> intake;
 // extern std::shared_ptr<AsyncControllerFactory> lift;
 // extern std::shared_ptr<AsyncControllerFactory> arm;
-
-extern int go;

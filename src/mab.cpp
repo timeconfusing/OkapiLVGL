@@ -18,16 +18,78 @@
 //
 ////////////////////////////////////////////////////////////////////////
 
+#include "robot.h"
 #include "robot_gui.h"
 
 void mabl1() {
  info_printf(1,"in mabl1");
  // example usage
  // match_auton1(BLUE); // mirror of RED right
+
+ // test pathfinder using different profiles
+ double gearing = (double)left_drive_motors.getGearing();
+
+ profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "A");
+ profileControllerF.setTarget("A");
+ profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{32_in, 28_in, 0_deg}}, "B");
+ profileControllerF.waitUntilSettled();
+
+ profileControllerM.setTarget("B", true);
+ profileControllerF.removePath("A");
+ profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "C");
+ profileControllerM.waitUntilSettled();
+
+ profileControllerF.setTarget("C");
+ profileControllerM.removePath("B");
+ profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{24_in, 0_in, 0_deg}}, "D");
+ profileControllerF.waitUntilSettled();
+
+ profileControllerF.setTarget("D",true);
+ profileControllerF.removePath("C");
+ profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{12_in, 0_in, 0_deg}}, "E");
+ profileControllerF.waitUntilSettled();
+
+ chassis->setMaxVelocity(gearing*.25);
+ chassis->turnAngle(-270_deg);
+ chassis->setMaxVelocity(gearing);
+
+ profileControllerM.setTarget("E");
+ profileControllerM.waitUntilSettled();
+ profileControllerM.removePath("E");
 }
 
 void mabl2() {
  info_printf(1,"in mabl2");
+ double gearing = (double)left_drive_motors.getGearing();
+
+ // test pathfinder using different profiles
+ profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "A");
+ profileControllerM.setTarget("A");
+ profileControllerS.generatePath({Point{0_in, 0_in, 0_deg}, Point{32_in, 28_in, 0_deg}}, "B");
+ profileControllerM.waitUntilSettled();
+
+ profileControllerS.setTarget("B", true);
+ profileControllerM.removePath("A");
+ profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "C");
+ profileControllerS.waitUntilSettled();
+
+ profileControllerM.setTarget("C");
+ profileControllerS.removePath("B");
+ profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{24_in, 0_in, 0_deg}}, "D");
+ profileControllerM.waitUntilSettled();
+
+ profileControllerM.setTarget("D",true);
+ profileControllerM.removePath("C");
+ profileControllerS.generatePath({Point{0_in, 0_in, 0_deg}, Point{12_in, 0_in, 0_deg}}, "E");
+ profileControllerM.waitUntilSettled();
+
+ chassis->setMaxVelocity(gearing*.25);
+ chassis->turnAngle(-270_deg);
+ chassis->setMaxVelocity(gearing);
+
+ profileControllerS.setTarget("E");
+ profileControllerS.waitUntilSettled();
+ profileControllerS.removePath("E");
 }
 
 void mabl3() {
@@ -48,6 +110,8 @@ void mabl6() {
 
 void mabr1() {
  info_printf(1,"in mabr1");
+ // example usage
+ // match_auton2(BLUE); // mirror of RED right
 }
 
 void mabr2() {

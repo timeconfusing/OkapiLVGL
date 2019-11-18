@@ -25,8 +25,8 @@
 /*********************
  *      INCLUDES
  *********************/
- #include "main.h"
-//#include "robot_gui.h"
+#include "main.h"
+#include "robot_gui.h"
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -63,6 +63,8 @@ static lv_obj_t *g_info_label; // info
 static lv_obj_t *g_telm_label; // telemetry
 
 int g_tv_tab_height;
+
+int auton_go; // global variable to start a selected auton during opcontrol
 
 /**********************
  *      MACROS
@@ -359,7 +361,7 @@ static lv_res_t marl_btnm_action(lv_obj_t * btnm, const char *txt) {
 
   // run selected auton function when not in auton and not disabled
   if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
-    go=1;
+    auton_go=1;
     lv_tabview_set_tab_act(tv, 6, false);
   }
 
@@ -401,7 +403,7 @@ static lv_res_t marr_btnm_action(lv_obj_t * btnm, const char *txt) {
 	int btn_num = atoi(txt);
 
   if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
-    go=1;
+    auton_go=1;
     lv_tabview_set_tab_act(tv, 6, false);
   }
 
@@ -443,7 +445,7 @@ static lv_res_t mabl_btnm_action(lv_obj_t * btnm, const char *txt) {
 	int btn_num = atoi(txt);
 
   if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
-    go=1;
+    auton_go=1;
     lv_tabview_set_tab_act(tv, 6, false);
   }
 
@@ -486,7 +488,7 @@ static lv_res_t mabr_btnm_action(lv_obj_t * btnm, const char *txt) {
 	int btn_num = atoi(txt);
 
   if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
-    go=1;
+    auton_go=1;
     lv_tabview_set_tab_act(tv, 6, false);
   }
 
