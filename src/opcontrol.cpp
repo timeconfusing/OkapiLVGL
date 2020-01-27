@@ -86,7 +86,9 @@ void opcontrol() {
   okapi::ControllerButton toggle_break_mode_btn(okapi::ControllerId::master, okapi::ControllerDigital::A);
   okapi::ControllerButton toggle_drive_control(okapi::ControllerId::master, okapi::ControllerDigital::B);
   okapi::ControllerButton toggle_speed_control(okapi::ControllerId::master, okapi::ControllerDigital::X);
+  okapi::ControllerButton generate_master_rumble(okapi::ControllerId::master, okapi::ControllerDigital::Y);
 
+  joy1->clear();
   // okapi::ControllerButton lift_up_btn(okapi::ControllerId::master, okapi::ControllerDigital::L1);
   // okapi::ControllerButton lift_dn_btn(okapi::ControllerId::master, okapi::ControllerDigital::L2);
   // okapi::ControllerButton arm_forward_btn(okapi::ControllerId::master, okapi::ControllerDigital::R1);
@@ -105,18 +107,22 @@ void opcontrol() {
     }
 
     // select between Tank, Arcade and Split Arcade (joy4=forward/reverse, joy1=left/right)
-    if (toggle_drive_control.isPressed()) {
+    // use changedToPressed() instead of isPressed() since this is a toggle select
+    // the former will only be true once per press while the later will be true as long as the button is pressed
+    if (toggle_drive_control.changedToPressed()) {
       if (drive_control == TANK) {
         drive_control = ARCADE;
         info_printf(2,"Arcade Drive");
+        joy1->setText(0, 0, "Arcade Drive"); // joystick display can't update faster than 50ms
       } else if (drive_control == ARCADE) {
          drive_control = SPLIT_ARCADE;
          info_printf(2,"Split Arcade Drive");
+         joy1->setText(0, 0, "Split Arcade");
       } else {
        drive_control = TANK;
        info_printf(2,"Tank Drive");
+       joy1->setText(0, 0, "Tank Drive");
       }
-      pros::delay(100);  // extra time so button is not registered multiple times when pressed
     }
 
     // switch between the driver control modes as selected above
@@ -135,35 +141,43 @@ void opcontrol() {
     }
 
     // select between and switch to the different brake modes
-    if (toggle_break_mode_btn.isPressed()) {
+    if (toggle_break_mode_btn.changedToPressed()) {
       if (right_drive_motors.getBrakeMode() == okapi::AbstractMotor::brakeMode::coast) {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
         info_printf(3,"BrakeMode = Brake");
+        joy1->setText(1, 0, "BrakeMode Brake");
       } else if (right_drive_motors.getBrakeMode() == okapi::AbstractMotor::brakeMode::brake) {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
-        info_printf(3,"BrakeMode = Hold");
+        info_printf(3,"BrakeMode: Hold");
+        joy1->setText(1, 0, "BrakeMode: Hold");
       } else {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
         info_printf(3,"BrakeMode = Coast");
+        joy1->setText(1, 0, "BrakeMode: Coast");
       }
-      pros::delay(100); // extra time so button is not registered multiple times when pressed
     }
 
     // select between and switch to the different drive speed
-    if (toggle_speed_control.isPressed()) {
+    if (toggle_speed_control.changedToPressed()) {
       if (toggle_speed) {
         chassis->setMaxVoltage(6000); // setMaxVelocity is not applied to Tank or Arcade drive
         info_printf(4,"Half Speed");
+        joy1->setText(2, 0, "Half Speed");
       }  else {
         chassis->setMaxVoltage(12000); // setMaxVelocity is not applied to Tank or Arcade drive
         info_printf(4,"Full Speed");
+        joy1->setText(2, 0, "Full Speed");
       }
       toggle_speed = !toggle_speed;
-      pros::delay(100); // extra time so button is not registered multiple times when pressed
     }
+
+    if (generate_master_rumble.changedToPressed()) {
+      joy1->rumble("- . -"); // long, pause, short, pause, long
+    }
+
 		pros::delay(20);
 	}
 }
