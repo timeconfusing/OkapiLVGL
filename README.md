@@ -51,4 +51,4 @@ multi-file project but it seems to work in both opcontrol and auton functions. A
 code should be considered unsupported and use at your own risk.  
 
 Here is a video of a pathfinder run testing different profile controllers for straight line and curved movement.
-![](https://github.com/timeconfusing/Images/blob/master/LVGL-Okapi-pathfinder2.mp4)
+https://github.com/timeconfusing/Images/blob/master/LVGL-Okapi-pathfinder2.mp4
