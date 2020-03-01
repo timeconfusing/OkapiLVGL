@@ -33,7 +33,7 @@ void marl2() {
 
 void marl3() {
   double gearing = (double)left_drive_motors.getGearing();
-  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl4: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*1.0); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -51,7 +51,7 @@ void marl3() {
 
 void marl4() {
   double gearing = (double)left_drive_motors.getGearing();
-  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl4: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*0.75); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -69,7 +69,7 @@ void marl4() {
 
 void marl5() {
   double gearing = (double)left_drive_motors.getGearing();
-  chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl5: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*0.5); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -87,7 +87,7 @@ void marl5() {
 
 void marl6() {
  double gearing = (double)left_drive_motors.getGearing();
- chassis->setMaxVoltage(12000); // in case this is run from opcontrol
+ //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
  info_printf(1,"in marl6: Gearing=%3.2d",gearing);
  chassis->setMaxVelocity(gearing*0.25); // see if speed affects turning
  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());

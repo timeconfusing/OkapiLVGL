@@ -29,42 +29,36 @@ okapi::MotorGroup right_drive_motors({-RIGHT_DRIVE_MOTOR1_PORT, -RIGHT_DRIVE_MOT
 okapi::MotorGroup left_drive_motors({LEFT_DRIVE_MOTOR1_PORT});
 okapi::MotorGroup right_drive_motors({-RIGHT_DRIVE_MOTOR1_PORT});
 #endif
-okapi::AbstractMotor::GearsetRatioPair drive_ratio = okapi::AbstractMotor::gearset::DRIVE_GEARSET * (DRIVE_GEARWHEEL/DRIVE_GEARMOTOR);
 
-std::shared_ptr<okapi::ChassisControllerIntegrated> chassis =
-  okapi::ChassisControllerFactory::createPtr(
-    left_drive_motors,
-    right_drive_motors,
-    drive_ratio,
-    {CHASSIS_WHEELS, CHASSIS_TRACK}
-  );
+// hey what happened to using GearsetRatioPair on the chassis?
+okapi::AbstractMotor::GearsetRatioPair drive_ratio = okapi::AbstractMotor::gearset::DRIVE_GEARSET * (DRIVE_GEARWHEEL/DRIVE_GEARMOTOR);
+std::shared_ptr<okapi::ChassisController> chassis = okapi::ChassisControllerBuilder()
+    .withMotors(left_drive_motors,right_drive_motors)
+    .withDimensions(okapi::AbstractMotor::gearset::DRIVE_GEARSET,{{CHASSIS_WHEELS, CHASSIS_TRACK}, DRIVE_TPR})
+    .build();
 
 // each parameter should be measured (or calculated) but can have individual scaling
 // multple controllers can be defined for different uses for instance performing turns more slowly
-okapi::AsyncMotionProfileController profileControllerF = AsyncControllerFactory::motionProfile(
-  1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
-  2 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
-  10.0 * 0.9, // Maximum linear jerk of the Chassis in m/s/s/s
-  *chassis // Chassis Controller
-);
+std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerF = okapi::AsyncMotionProfileControllerBuilder()
+  .withLimits({ 1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
+                2.00 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
+               10.00 * 0.9}) // Maximum linear jerk of the Chassis in m/s/s/s
+  .withOutput(*chassis) // Chassis Controller
+  .buildMotionProfileController();
 
-okapi::AsyncMotionProfileController profileControllerM = AsyncControllerFactory::motionProfile(
-  1.06 * 0.66,  // Maximum linear velocity of the Chassis in m/s
-  2 * 0.66,  // Maximum linear acceleration of the Chassis in m/s/s
-  10.0 * 0.66, // Maximum linear jerk of the Chassis in m/s/s/s
-  *chassis // Chassis Controller
-);
+std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerM = okapi::AsyncMotionProfileControllerBuilder()
+  .withLimits({ 1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
+                2.00 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
+               10.00 * 0.9}) // Maximum linear jerk of the Chassis in m/s/s/s
+  .withOutput(*chassis) // Chassis Controller
+  .buildMotionProfileController();
 
-okapi::AsyncMotionProfileController profileControllerS = AsyncControllerFactory::motionProfile(
-  1.06 * 0.4,  // Maximum linear velocity of the Chassis in m/s
-  2 * 0.4,  // Maximum linear acceleration of the Chassis in m/s/s
-  10.0 * 0.4, // Maximum linear jerk of the Chassis in m/s/s/s
-  *chassis // Chassis Controller
-);
-
-// std::shared_ptr<AsyncControllerFactory> intake(nullptr);
-// std::shared_ptr<AsyncControllerFactory> tray(nullptr);
-// std::shared_ptr<AsyncControllerFactory> arm(nullptr);
+std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerS = okapi::AsyncMotionProfileControllerBuilder()
+  .withLimits({ 1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
+                2.00 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
+               10.00 * 0.9}) // Maximum linear jerk of the Chassis in m/s/s/s
+  .withOutput(*chassis) // Chassis Controller
+  .buildMotionProfileController();
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -121,21 +115,21 @@ void opcontrol() {
       } else {
        drive_control = TANK;
        info_printf(2,"Tank Drive");
-       joy1->setText(0, 0, "Tank Drive");
+       joy1->setText(0, 0, "Tank Drive  "); // add space(s) to make sure char count is same
       }
     }
 
     // switch between the driver control modes as selected above
     if (drive_control == SPLIT_ARCADE) {
-      chassis->arcade(joy1->getAnalog(okapi::ControllerAnalog::leftY),
+      chassis->getModel()->arcade(joy1->getAnalog(okapi::ControllerAnalog::leftY),
                       joy1->getAnalog(okapi::ControllerAnalog::rightX),
                       JOYSTICK_THRESHOLD);
     } else if (drive_control == ARCADE) {
-      chassis->arcade(joy1->getAnalog(okapi::ControllerAnalog::rightY),
+      chassis->getModel()->arcade(joy1->getAnalog(okapi::ControllerAnalog::rightY),
                       joy1->getAnalog(okapi::ControllerAnalog::rightX),
                       JOYSTICK_THRESHOLD);
     } else {
-      chassis->tank(joy1->getAnalog(okapi::ControllerAnalog::leftY),
+      chassis->getModel()->tank(joy1->getAnalog(okapi::ControllerAnalog::leftY),
                     joy1->getAnalog(okapi::ControllerAnalog::rightY),
                     JOYSTICK_THRESHOLD);
     }
@@ -145,17 +139,17 @@ void opcontrol() {
       if (right_drive_motors.getBrakeMode() == okapi::AbstractMotor::brakeMode::coast) {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::brake);
-        info_printf(3,"BrakeMode = Brake");
-        joy1->setText(1, 0, "BrakeMode Brake");
+        info_printf(3,"BrakeMode: Brake");
+        joy1->setText(1, 0, "BrakeMode: Brake");
       } else if (right_drive_motors.getBrakeMode() == okapi::AbstractMotor::brakeMode::brake) {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
         info_printf(3,"BrakeMode: Hold");
-        joy1->setText(1, 0, "BrakeMode: Hold");
+        joy1->setText(1, 0, "BrakeMode: Hold "); // add space(s) to make sure char count is same
       } else {
         left_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
         right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
-        info_printf(3,"BrakeMode = Coast");
+        info_printf(3,"BrakeMode: Coast");
         joy1->setText(1, 0, "BrakeMode: Coast");
       }
     }
@@ -163,17 +157,19 @@ void opcontrol() {
     // select between and switch to the different drive speed
     if (toggle_speed_control.changedToPressed()) {
       if (toggle_speed) {
-        chassis->setMaxVoltage(6000); // setMaxVelocity is not applied to Tank or Arcade drive
+        chassis->getModel()->setMaxVoltage(6000); // setMaxVelocity is not applied to Tank or Arcade drive
         info_printf(4,"Half Speed");
         joy1->setText(2, 0, "Half Speed");
       }  else {
-        chassis->setMaxVoltage(12000); // setMaxVelocity is not applied to Tank or Arcade drive
+        chassis->getModel()->setMaxVoltage(12000); // setMaxVelocity is not applied to Tank or Arcade drive
         info_printf(4,"Full Speed");
         joy1->setText(2, 0, "Full Speed");
       }
       toggle_speed = !toggle_speed;
     }
 
+    // it appears the joy cannot take another access (rumble or text) until
+    // then proir access (rumble or text) completes
     if (generate_master_rumble.changedToPressed()) {
       joy1->rumble("- . -"); // long, pause, short, pause, long
     }

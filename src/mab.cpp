@@ -3,9 +3,9 @@
 //! @brief Match Autonomous Blue functions
 //
 // This is the collection of intermediate functions that call
-// the actual auton function with the paramter BLUE. The actual
+// the actual auton function with the parameter BLUE. The actual
 // auton function is written to work on the RED or BLUE side
-// but the function point cannot pass that information so it
+// but the function pointer cannot pass that information so it
 // is extracted from the mabl#/mabr# function. This indirection
 // also allows for the adjustment of RED right and BLUE left being
 // mirrors or RED right and BLUE right being mirrors.
@@ -29,33 +29,33 @@ void mabl1() {
  // test pathfinder using different profiles
  double gearing = (double)left_drive_motors.getGearing();
 
- profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "A");
- profileControllerF.setTarget("A");
- profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{32_in, 28_in, 0_deg}}, "B");
- profileControllerF.waitUntilSettled();
+ profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "A");
+ profileControllerF->setTarget("A");
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {32_in, 28_in, 0_deg}}, "B");
+ profileControllerF->waitUntilSettled();
 
- profileControllerM.setTarget("B", true);
- profileControllerF.removePath("A");
- profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "C");
- profileControllerM.waitUntilSettled();
+ profileControllerM->setTarget("B", true);
+ profileControllerF->removePath("A");
+ profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "C");
+ profileControllerM->waitUntilSettled();
 
- profileControllerF.setTarget("C");
- profileControllerM.removePath("B");
- profileControllerF.generatePath({Point{0_in, 0_in, 0_deg}, Point{24_in, 0_in, 0_deg}}, "D");
- profileControllerF.waitUntilSettled();
+ profileControllerF->setTarget("C");
+ profileControllerM->removePath("B");
+ profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {24_in, 0_in, 0_deg}}, "D");
+ profileControllerF->waitUntilSettled();
 
- profileControllerF.setTarget("D",true);
- profileControllerF.removePath("C");
- profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{12_in, 0_in, 0_deg}}, "E");
- profileControllerF.waitUntilSettled();
+ profileControllerF->setTarget("D",true);
+ profileControllerF->removePath("C");
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {12_in, 0_in, 0_deg}}, "E");
+ profileControllerF->waitUntilSettled();
 
- chassis->setMaxVelocity(gearing*.25);
+ chassis->getModel()->setMaxVelocity(gearing*.25);
  chassis->turnAngle(-270_deg);
- chassis->setMaxVelocity(gearing);
+ chassis->getModel()->setMaxVelocity(gearing);
 
- profileControllerM.setTarget("E");
- profileControllerM.waitUntilSettled();
- profileControllerM.removePath("E");
+ profileControllerM->setTarget("E");
+ profileControllerM->waitUntilSettled();
+ profileControllerM->removePath("E");
 }
 
 void mabl2() {
@@ -63,33 +63,33 @@ void mabl2() {
  double gearing = (double)left_drive_motors.getGearing();
 
  // test pathfinder using different profiles
- profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "A");
- profileControllerM.setTarget("A");
- profileControllerS.generatePath({Point{0_in, 0_in, 0_deg}, Point{32_in, 28_in, 0_deg}}, "B");
- profileControllerM.waitUntilSettled();
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "A");
+ profileControllerM->setTarget("A");
+ profileControllerS->generatePath({{0_in, 0_in, 0_deg}, {32_in, 28_in, 0_deg}}, "B");
+ profileControllerM->waitUntilSettled();
 
- profileControllerS.setTarget("B", true);
- profileControllerM.removePath("A");
- profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{36_in, 0_in, 0_deg}}, "C");
- profileControllerS.waitUntilSettled();
+ profileControllerS->setTarget("B", true);
+ profileControllerM->removePath("A");
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "C");
+ profileControllerS->waitUntilSettled();
 
- profileControllerM.setTarget("C");
- profileControllerS.removePath("B");
- profileControllerM.generatePath({Point{0_in, 0_in, 0_deg}, Point{24_in, 0_in, 0_deg}}, "D");
- profileControllerM.waitUntilSettled();
+ profileControllerM->setTarget("C");
+ profileControllerS->removePath("B");
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {24_in, 0_in, 0_deg}}, "D");
+ profileControllerM->waitUntilSettled();
 
- profileControllerM.setTarget("D",true);
- profileControllerM.removePath("C");
- profileControllerS.generatePath({Point{0_in, 0_in, 0_deg}, Point{12_in, 0_in, 0_deg}}, "E");
- profileControllerM.waitUntilSettled();
+ profileControllerM->setTarget("D",true);
+ profileControllerM->removePath("C");
+ profileControllerS->generatePath({{0_in, 0_in, 0_deg}, {12_in, 0_in, 0_deg}}, "E");
+ profileControllerM->waitUntilSettled();
 
- chassis->setMaxVelocity(gearing*.25);
+ chassis->getModel()->setMaxVelocity(gearing*.25);
  chassis->turnAngle(-270_deg);
- chassis->setMaxVelocity(gearing);
+ chassis->getModel()->setMaxVelocity(gearing);
 
- profileControllerS.setTarget("E");
- profileControllerS.waitUntilSettled();
- profileControllerS.removePath("E");
+ profileControllerS->setTarget("E");
+ profileControllerS->waitUntilSettled();
+ profileControllerS->removePath("E");
 }
 
 void mabl3() {

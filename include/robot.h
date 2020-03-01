@@ -14,7 +14,7 @@
 #pragma once
 
 #include <memory> // required for smart pointers
-#include "main.h" // robot.h needs main for forwad declarations 
+#include "main.h" // robot.h needs main for forwad declarations
 
 #define LEFT_DRIVE_MOTOR1_PORT 11
 #define LEFT_DRIVE_MOTOR2_PORT 20
@@ -23,6 +23,7 @@
 #define RIGHT_DRIVE_MOTOR2_PORT 10
 
 #define DRIVE_GEARSET green
+#define DRIVE_TPR okapi::imev5GreenTPR
 #define DRIVE_GEARMOTOR 36.0
 #define DRIVE_GEARWHEEL 36.0
 
@@ -43,13 +44,9 @@
 extern int drive_control;
 
 extern std::shared_ptr<okapi::Controller> joy1;
-extern std::shared_ptr<okapi::ChassisControllerIntegrated> chassis;
+extern std::shared_ptr<okapi::ChassisController> chassis;
 extern okapi::MotorGroup left_drive_motors;
 extern okapi::MotorGroup right_drive_motors;
-extern okapi::AsyncMotionProfileController profileControllerF;
-extern okapi::AsyncMotionProfileController profileControllerM;
-extern okapi::AsyncMotionProfileController profileControllerS;
-
-// extern std::shared_ptr<AsyncControllerFactory> intake;
-// extern std::shared_ptr<AsyncControllerFactory> lift;
-// extern std::shared_ptr<AsyncControllerFactory> arm;
+extern std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerF;
+extern std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerM;
+extern std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerS;

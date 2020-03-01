@@ -50,6 +50,14 @@ void initialize() {
   right_drive_motors.tarePosition();
   right_drive_motors.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
 
+  // okapi::AbstractMotor::GearsetRatioPair drive_ratio = okapi::AbstractMotor::gearset::DRIVE_GEARSET * (DRIVE_GEARWHEEL/DRIVE_GEARMOTOR);
+  // auto my_chassis = okapi::ChassisControllerBuilder()
+  //     .withMotors(left_drive_motors,right_drive_motors)
+  //     .withGearset(drive_ratio)
+  //     .withDimensions({{CHASSIS_WHEELS, CHASSIS_TRACK}, DRIVE_TPR})
+  //     .build();
+  //
+  // chassis = my_chassis;
   // start the display live telematry task
   pros::Task telm_task (live_telemetry, NULL, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "telm");
 }
