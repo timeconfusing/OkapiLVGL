@@ -47,16 +47,16 @@ std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerF = okapi:
   .buildMotionProfileController();
 
 std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerM = okapi::AsyncMotionProfileControllerBuilder()
-  .withLimits({ 1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
-                2.00 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
-               10.00 * 0.9}) // Maximum linear jerk of the Chassis in m/s/s/s
+  .withLimits({ 1.06 * 0.66,  // Maximum linear velocity of the Chassis in m/s
+                2.00 * 0.66,  // Maximum linear acceleration of the Chassis in m/s/s
+               10.00 * 0.66}) // Maximum linear jerk of the Chassis in m/s/s/s
   .withOutput(*chassis) // Chassis Controller
   .buildMotionProfileController();
 
 std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerS = okapi::AsyncMotionProfileControllerBuilder()
-  .withLimits({ 1.06 * 0.9,  // Maximum linear velocity of the Chassis in m/s
-                2.00 * 0.9,  // Maximum linear acceleration of the Chassis in m/s/s
-               10.00 * 0.9}) // Maximum linear jerk of the Chassis in m/s/s/s
+  .withLimits({ 1.06 * 0.4,  // Maximum linear velocity of the Chassis in m/s
+                2.00 * 0.4,  // Maximum linear acceleration of the Chassis in m/s/s
+               10.00 * 0.4}) // Maximum linear jerk of the Chassis in m/s/s/s
   .withOutput(*chassis) // Chassis Controller
   .buildMotionProfileController();
 
