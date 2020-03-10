@@ -26,15 +26,19 @@ void mabl1() {
  // example usage
  // match_auton1(BLUE); // mirror of RED right
 
- // test pathfinder using different profiles
+ // velocity is in rpms which is dependent on the gear cartridge.
  double gearing = (double)left_drive_motors.getGearing();
 
+ // test pathfinder using different profiles
  profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "A");
  profileControllerF->setTarget("A");
- profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {32_in, 28_in, 0_deg}}, "B");
+ // path with one waypoint. all points are suppose to be relative to the first point
+ // but to end close to x=0 from x=36 above, 24_in was needed. it should be noted
+ // that the runs are consistent even if the points are not exact.
+ profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {10_in, 0_in, 0_deg}, {24_in, 28_in, 0_deg}}, "B");
  profileControllerF->waitUntilSettled();
 
- profileControllerM->setTarget("B", true);
+ profileControllerM->setTarget("B", true); // true means to use the path in reverse
  profileControllerF->removePath("A");
  profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "C");
  profileControllerM->waitUntilSettled();
@@ -44,14 +48,14 @@ void mabl1() {
  profileControllerF->generatePath({{0_in, 0_in, 0_deg}, {24_in, 0_in, 0_deg}}, "D");
  profileControllerF->waitUntilSettled();
 
- profileControllerF->setTarget("D",true);
+ profileControllerF->setTarget("D",true); // true means to use the path in reverse
  profileControllerF->removePath("C");
  profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {12_in, 0_in, 0_deg}}, "E");
  profileControllerF->waitUntilSettled();
 
- chassis->getModel()->setMaxVelocity(gearing*.25);
+ chassis->setMaxVelocity(gearing*.66); // set the turn to be slower for more accuracy
  chassis->turnAngle(-270_deg);
- chassis->getModel()->setMaxVelocity(gearing);
+ chassis->setMaxVelocity(gearing); // set veolcity back to full cartride value
 
  profileControllerM->setTarget("E");
  profileControllerM->waitUntilSettled();
@@ -60,6 +64,8 @@ void mabl1() {
 
 void mabl2() {
  info_printf(1,"in mabl2");
+
+ // velocity is in rpms which is dependent on the gear cartridge.
  double gearing = (double)left_drive_motors.getGearing();
 
  // test pathfinder using different profiles
@@ -68,7 +74,7 @@ void mabl2() {
  profileControllerS->generatePath({{0_in, 0_in, 0_deg}, {32_in, 28_in, 0_deg}}, "B");
  profileControllerM->waitUntilSettled();
 
- profileControllerS->setTarget("B", true);
+ profileControllerS->setTarget("B", true); // true means to use the path in reverse
  profileControllerM->removePath("A");
  profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {36_in, 0_in, 0_deg}}, "C");
  profileControllerS->waitUntilSettled();
@@ -78,14 +84,14 @@ void mabl2() {
  profileControllerM->generatePath({{0_in, 0_in, 0_deg}, {24_in, 0_in, 0_deg}}, "D");
  profileControllerM->waitUntilSettled();
 
- profileControllerM->setTarget("D",true);
+ profileControllerM->setTarget("D",true); // true means to use the path in reverse
  profileControllerM->removePath("C");
  profileControllerS->generatePath({{0_in, 0_in, 0_deg}, {12_in, 0_in, 0_deg}}, "E");
  profileControllerM->waitUntilSettled();
 
- chassis->getModel()->setMaxVelocity(gearing*.25);
+ chassis->setMaxVelocity(gearing*.25); // set the turn to be slower for more accuracy
  chassis->turnAngle(-270_deg);
- chassis->getModel()->setMaxVelocity(gearing);
+ chassis->setMaxVelocity(gearing); // set veolcity back to full cartride value
 
  profileControllerS->setTarget("E");
  profileControllerS->waitUntilSettled();

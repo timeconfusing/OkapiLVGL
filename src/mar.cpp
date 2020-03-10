@@ -32,8 +32,8 @@ void marl2() {
 }
 
 void marl3() {
+  // velocity is in rpms which is dependent on the gear cartridge.
   double gearing = (double)left_drive_motors.getGearing();
-  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl4: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*1.0); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -46,12 +46,13 @@ void marl3() {
   chassis->turnAngle(-360.0_deg);
   info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
 
+  // set veolcity back to full cartride value
   chassis->setMaxVelocity(gearing);
 }
 
 void marl4() {
+  // velocity is in rpms which is dependent on the gear cartridge.
   double gearing = (double)left_drive_motors.getGearing();
-  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl4: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*0.75); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -64,12 +65,13 @@ void marl4() {
   chassis->turnAngle(-360.0_deg);
   info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
 
+  // set veolcity back to full cartride value
   chassis->setMaxVelocity(gearing);
 }
 
 void marl5() {
+  // velocity is in rpms which is dependent on the gear cartridge.
   double gearing = (double)left_drive_motors.getGearing();
-  //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
   info_printf(1,"in marl5: Gearing=%3.2d",gearing);
   chassis->setMaxVelocity(gearing*0.5); // see if speed affects turning
   info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -82,12 +84,13 @@ void marl5() {
   chassis->turnAngle(-360.0_deg);
   info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
 
+  // set veolcity back to full cartride value
   chassis->setMaxVelocity(gearing);
 }
 
 void marl6() {
+ // velocity is in rpms which is dependent on the gear cartridge.
  double gearing = (double)left_drive_motors.getGearing();
- //chassis->setMaxVoltage(12000); // in case this is run from opcontrol
  info_printf(1,"in marl6: Gearing=%3.2d",gearing);
  chassis->setMaxVelocity(gearing*0.25); // see if speed affects turning
  info_printf(2,"  I: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
@@ -100,6 +103,7 @@ void marl6() {
  chassis->turnAngle(-360.0_deg);
  info_printf(6,"360: LDP=%f, RDP=%f",left_drive_motors.getPosition(),right_drive_motors.getPosition());
 
+ // set veolcity back to full cartride value
  chassis->setMaxVelocity(gearing);
 }
 
