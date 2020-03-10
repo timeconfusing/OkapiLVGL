@@ -31,10 +31,10 @@ okapi::MotorGroup right_drive_motors({-RIGHT_DRIVE_MOTOR1_PORT});
 #endif
 
 // hey what happened to using GearsetRatioPair on the chassis?
-okapi::AbstractMotor::GearsetRatioPair drive_ratio = okapi::AbstractMotor::gearset::DRIVE_GEARSET * (DRIVE_GEARWHEEL/DRIVE_GEARMOTOR);
+okapi::AbstractMotor::GearsetRatioPair drive_ratio = DRIVE_GEARSET * (DRIVE_GEARWHEEL/DRIVE_GEARMOTOR);
 std::shared_ptr<okapi::ChassisController> chassis = okapi::ChassisControllerBuilder()
     .withMotors(left_drive_motors,right_drive_motors)
-    .withDimensions(okapi::AbstractMotor::gearset::DRIVE_GEARSET,{{CHASSIS_WHEELS, CHASSIS_TRACK}, DRIVE_TPR})
+    .withDimensions(DRIVE_GEARSET,{{CHASSIS_WHEELS, CHASSIS_TRACK}, DRIVE_TPR})
     .build();
 
 // each parameter should be measured (or calculated) but can have individual scaling
