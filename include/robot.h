@@ -22,7 +22,7 @@
 #define RIGHT_DRIVE_MOTOR1_PORT 1
 #define RIGHT_DRIVE_MOTOR2_PORT 10
 
-#define DRIVE_GEARSET green
+#define DRIVE_GEARSET okapi::AbstractMotor::gearset::green
 #define DRIVE_TPR okapi::imev5GreenTPR
 #define DRIVE_GEARMOTOR 36.0
 #define DRIVE_GEARWHEEL 36.0
